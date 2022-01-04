@@ -6,3 +6,4 @@ A simple web application, created just for educational purposes. It implements f
 - React with hooks;
 - CRA / react-app-rewired;
 - Redux Toolkit;
+- FastAPI;

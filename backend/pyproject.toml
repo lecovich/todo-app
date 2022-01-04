@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "todo-app"
+version = "0.1.0"
+description = "A simple todo app"
+
+repository = "https://github.com/lecovich/todo-app"
+homepage = "https://github.com/lecovich/todo-app"
+authors = ["lecovich"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = { version = "^0.70" }
+uvicorn = { version = "^0.16", extras = ["standard"] }
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
