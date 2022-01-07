@@ -15,3 +15,8 @@ uvicorn = { version = "^0.16", extras = ["standard"] }
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
+
+[tool.black]
+line-length = 120
+target-version = ["py38"]
+skip-string-normalization = true

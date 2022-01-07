@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bson import ObjectId
 from pydantic import BaseModel, Field
 
@@ -17,10 +19,24 @@ class ItemModel(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
-        # alias_generator = replace_id
         schema_extra = {
             'example': {
                 'id': '61dead6c2c3778a9f656beaf',
+                'value': 'Some item to complete',
+                'completed': False,
+            }
+        }
+
+
+class UpdateItemModel(BaseModel):
+    value: Optional[str]
+    completed: Optional[bool]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        schema_extra = {
+            'example': {
                 'value': 'Some item to complete',
                 'completed': False,
             }

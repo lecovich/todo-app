@@ -1,26 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
-
 import Item from 'components/item/Item';
 import ToggleAll from 'components/toggle-all/ToggleAll';
-import { remove, toggle } from 'features/items/itemSlice';
-import { RootState } from 'features/store';
+import { useGetAllItemsQuery, useToggleItemMutation } from 'api/items-service';
 
 function Items() {
-  const items = useSelector((state: RootState) => state.items.items);
-  const dispatch = useDispatch();
+  const { data } = useGetAllItemsQuery('');
 
-  const handleToggle = (id: number) => {
-    dispatch(toggle(id));
+  const [toggleItem] = useToggleItemMutation();
+
+  const handleToggle = (id: string, completed: boolean) => {
+    toggleItem({ id, completed });
   };
 
-  const handleRemove = (id: number) => {
-    dispatch(remove(id));
+  const handleRemove = (id: string) => {
+    // dispatch(remove(id));
   };
 
   return (
     <section className="main">
       <ul className="todo-list">
-        {items.map(item => (
+        {data?.map(item => (
           <Item key={item.id} id={item.id} completed={item.completed} value={item.value} onToggle={handleToggle}
                 onRemove={handleRemove} />))}
       </ul>

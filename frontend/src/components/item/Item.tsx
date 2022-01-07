@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import { FunctionComponent } from 'react';
 
 interface ItemProps {
-  id: number;
+  id: string;
   value: string;
   completed: boolean;
-  onToggle?: (id: number) => void;
-  onRemove?: (id: number) => void;
+  onToggle?: (id: string, completed: boolean) => void;
+  onRemove?: (id: string) => void;
 }
 
 const Item: FunctionComponent<ItemProps> = ({ id, value, completed, onToggle, onRemove }) => {
@@ -16,7 +16,7 @@ const Item: FunctionComponent<ItemProps> = ({ id, value, completed, onToggle, on
     <li className={itemClassName}>
       <div className="view">
         <input className="toggle" type="checkbox" defaultChecked={completed} onClick={() => {
-          onToggle && onToggle(id);
+          onToggle && onToggle(id, !completed);
         }} />
         <label>{value}</label>
         <button className="destroy" onClick={() => {
