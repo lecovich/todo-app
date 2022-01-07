@@ -10,6 +10,7 @@ authors = ["lecovich"]
 [tool.poetry.dependencies]
 python = "^3.8"
 fastapi = { version = "^0.70" }
+motor = { version = "^2.5.1" }
 uvicorn = { version = "^0.16", extras = ["standard"] }
 
 [tool.poetry.dev-dependencies]

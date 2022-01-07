@@ -7,3 +7,4 @@ A simple web application, created just for educational purposes. It implements f
 - CRA / react-app-rewired;
 - Redux Toolkit;
 - FastAPI;
+- MongoDB;
