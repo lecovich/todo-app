@@ -8,7 +8,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from starlette import status
 from starlette.middleware.cors import CORSMiddleware
 
-from backend.models.item import ItemModel, UpdateItemModel
+from models.health import HealthModel
+from models.item import ItemModel, UpdateItemModel
 
 app = FastAPI()
 
@@ -26,6 +27,13 @@ app.add_middleware(
 db_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
 client = AsyncIOMotorClient(db_url)
 db = client.items
+
+
+@app.get(
+    "/api/health",
+)
+async def list_items() -> HealthModel:
+    return HealthModel(status='OK')
 
 
 @app.get(
@@ -85,4 +93,4 @@ async def update_item(_id: str, item: UpdateItemModel = Body(...)) -> ItemModel:
 
 # For more details consider https://github.com/mongodb-developer/mongodb-with-fastapi/blob/master/app.py
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
+    uvicorn.run("app:app", host="localhost", port=9000, reload=True)

@@ -3,15 +3,15 @@ from typing import Optional
 from bson import ObjectId
 from pydantic import BaseModel, Field
 
-from backend.models import PyObjectId
+from models import PyObjectId
 
 
 def replace_id(arg: str) -> str:
-    return arg.replace('_id', 'id')
+    return arg.replace("_id", "id")
 
 
 class ItemModel(BaseModel):
-    id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     value: str = Field(...)
     completed: bool = Field(...)
 
@@ -20,10 +20,10 @@ class ItemModel(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            'example': {
-                'id': '61dead6c2c3778a9f656beaf',
-                'value': 'Some item to complete',
-                'completed': False,
+            "example": {
+                "id": "61dead6c2c3778a9f656beaf",
+                "value": "Some item to complete",
+                "completed": False,
             }
         }
 
@@ -36,8 +36,8 @@ class UpdateItemModel(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         schema_extra = {
-            'example': {
-                'value': 'Some item to complete',
-                'completed': False,
+            "example": {
+                "value": "Some item to complete",
+                "completed": False,
             }
         }
