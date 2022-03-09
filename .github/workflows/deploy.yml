@@ -1,4 +1,4 @@
-name: Deploy application to the remote host
+name: Deploy to `develop`
 
 on:
   release:
