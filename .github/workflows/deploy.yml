@@ -1,0 +1,21 @@
+name: Deploy application to the remote host
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  deploy_to_remote_host:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+      - name: Execute some command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.API_HOST }}
+          username: ${{ secrets.API_HOST_USERNAME }}
+          key: ${{ secrets.API_HOST_PRIVATE_KEY }}
+          script: | 
+            whoami
