@@ -18,4 +18,4 @@ jobs:
           username: ${{ secrets.API_HOST_USERNAME }}
           key: ${{ secrets.API_HOST_PRIVATE_KEY }}
           script: | 
-            whoami
+            uname -a
