@@ -51,7 +51,9 @@ jobs:
           username: ${{ secrets.API_HOST_USERNAME }}
           key: ${{ secrets.API_HOST_PRIVATE_KEY }}
           script: |
+            docker stop todo-app-api;
             docker run --rm --detach \
+            --name=todo-app-api
             --workdir=/app \
             --publish=8000:8000 \
             --env VERSION=${{ steps.variables.outputs.hash }} \
