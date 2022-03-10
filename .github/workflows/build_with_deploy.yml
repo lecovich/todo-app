@@ -28,6 +28,7 @@ jobs:
         id: variables
         shell: bash
         run: |
+          echo "##[set-output name=api_port;]$(echo 8000)"
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=hash::$(git rev-parse --short HEAD)"
 
@@ -60,8 +61,8 @@ jobs:
             --publish=8000:8000 \
             --env VERSION=${{ steps.variables.outputs.hash }} \
             lecovich/todo-app:${{ steps.variables.outputs.hash }} \
-            poetry run uvicorn app:app --host=0.0.0.0 --port=8000
+            poetry run uvicorn app:app --host=0.0.0.0 --port=${{ steps.variables.outputs.api_port }}
 
       - name: Health check
         run: |
-          curl -XGET 'http://${{ secrets.API_HOST }}/api/health' | jq '.status' | grep -q 'OK'
+          curl -XGET 'http://${{ secrets.API_HOST }}:${{ steps.variables.outputs.api_port }}/api/health' | jq '.status' | grep -q 'OK'
