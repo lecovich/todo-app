@@ -4,12 +4,22 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'develop'
+        type: choice
+        options:
+          - develop
+          - staging
+          - production
 
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    environment: develop
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -44,6 +54,6 @@ jobs:
             docker run --rm --detach \
             --workdir=/app \
             --publish=8000:8000 \
-            --env VERSION=${{ steps.variables.outputs.hash }}
+            --env VERSION=${{ steps.variables.outputs.hash }} \
             lecovich/todo-app:latest \
             poetry run uvicorn app:app --host=0.0.0.0 --port=8000
