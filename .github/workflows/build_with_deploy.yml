@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Build and deploy on environment
 
 on:
   release:
@@ -26,3 +26,16 @@ jobs:
           context: backend
           push: true
           tags: ${{ secrets.DOCKER_HUB_USER_NAME }}/todo-app:latest
+
+      - name: Pull image and run container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.API_HOST }}
+          username: ${{ secrets.API_HOST_USERNAME }}
+          key: ${{ secrets.API_HOST_PRIVATE_KEY }}
+          script: |
+            docker run --rm --detach \
+            --workdir=/app \
+            --publish=8000:8000 \
+            lecovich/todo-app:latest \
+            poetry run uvicorn app:app --host=0.0.0.0 --port=8000
