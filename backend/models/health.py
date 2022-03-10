@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 
 class HealthModel(BaseModel):
     status: str = Field(...)
+    version: str = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -10,5 +11,6 @@ class HealthModel(BaseModel):
         schema_extra = {
             'example': {
                 'status': 'OK',
+                'version': '0.1.0',
             }
         }

@@ -33,7 +33,8 @@ db = client.items
     "/api/health",
 )
 async def list_items() -> HealthModel:
-    return HealthModel(status='OK')
+    version = os.getenv('VERSION', 'unknown')
+    return HealthModel(status='OK', version=version)
 
 
 @app.get(
