@@ -53,7 +53,7 @@ jobs:
           script: |
             docker stop todo-app-api; \
             docker run --rm --detach \
-            --name=todo-app-api
+            --name=todo-app-api \
             --workdir=/app \
             --publish=8000:8000 \
             --env VERSION=${{ steps.variables.outputs.hash }} \
