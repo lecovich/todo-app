@@ -13,9 +13,8 @@ from models.item import ItemModel, UpdateItemModel
 
 app = FastAPI()
 
-origins = [
-    "*",
-]
+origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -24,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-db_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+db_url = os.environ["MONGODB_URL"]
 client = AsyncIOMotorClient(db_url)
 db = client.items
 
@@ -32,9 +31,14 @@ db = client.items
 @app.get(
     "/api/health",
 )
-async def list_items() -> HealthModel:
-    version = os.getenv('VERSION', 'unknown')
-    return HealthModel(status='OK', version=version)
+async def response_health() -> HealthModel:
+    version = os.getenv("VERSION", "unknown")
+    mongo_ping_response = await client.admin.command("ping")
+    return HealthModel(
+        status="OK",
+        version=version,
+        db_ping="OK" if "ok" in mongo_ping_response else "FAILED",
+    )
 
 
 @app.get(
@@ -94,4 +98,4 @@ async def update_item(_id: str, item: UpdateItemModel = Body(...)) -> ItemModel:
 
 # For more details consider https://github.com/mongodb-developer/mongodb-with-fastapi/blob/master/app.py
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="localhost", port=9000, reload=True)
+    uvicorn.run("app:app", host="localhost", port=8000, reload=True)

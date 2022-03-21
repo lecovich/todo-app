@@ -20,20 +20,22 @@ docker/login:
 docker/image/build:
 	@echo "Building docker image"
 	docker build \
-	    --no-cache \
 		--build-arg REVISION=$(REVISION) \
 		--build-arg BUILDTIME=$(BUILDTIME) \
-		-t $(REGISTRY):$(VERSION) \
-		-t $(REGISTRY):$(REVISION) backend
+	    --no-cache \
+		--tag $(REGISTRY):$(VERSION) \
+		--tag $(REGISTRY):$(REVISION) \
+		backend
 
 ##   docker/runserver - run a dev server connected to local PG and Redis
 .PHONY: docker/runserver
 docker/runserver:
 	@echo "Running dev server"
 	docker run --rm \
-		-v $(PWD)/backend:/app/ \
-		-w /app \
-		-p 8000:8000 \
+		--env MONGODB_URL=$(MONGODB_URL) \
+		--publish 8000:8000 \
+		--volume $(PWD)/backend:/app/ \
+		--workdir /app \
 		$(REGISTRY):$(VERSION) poetry run uvicorn app:app --host=0.0.0.0 --port=8000
 
 ## -

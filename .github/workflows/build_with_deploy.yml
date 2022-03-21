@@ -55,9 +55,11 @@ jobs:
           script: |
             docker stop todo-app-api; \
             docker run --rm --detach \
-            --name=todo-app-api \
-            --workdir=/app \
-            --publish=8000:8000 \
             --env VERSION=${{ steps.variables.outputs.hash }} \
+            --env MONGODB_URL=${{ secrets.MONGODB_URL }} \
+            --name=todo-app-api \
+            --network=todo-app-network \
+            --publish=8000:8000 \
+            --workdir=/app \
             lecovich/todo-app:${{ steps.variables.outputs.hash }} \
             poetry run uvicorn app:app --host=0.0.0.0 --port=8000
