@@ -85,11 +85,13 @@ jobs:
           yarn build
 
       - name: Copy to bucket
-        uses: qoqa/action-s3-cp@v1.1
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --endpoint-url=https://storage.yandexcloud.net --recursive
         env:
-          AWS_S3_BUCKET: nlesnykh-test-bucket
+          S3_BUCKET: nlesnykh-test-bucket
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_S3_PATH: '/todo-app-static/'
-          FILE: 'frontend/build/*'
+          S3_KEY: 'todo-app-static/'
+          FILE: 'frontend/build/'
